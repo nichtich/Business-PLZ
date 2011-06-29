@@ -112,7 +112,7 @@ This module validates German postal codes and maps them to states.
 
     my $plz = Business::PLZ->new('12345'); # croaks on invalid code
 
-    print "$plz"; # stringify
+    print "$plz";     # stringify
 
     $plz->state;      # state or undef if not exist 
     $plz->iso_state;  # state as full ISO code
