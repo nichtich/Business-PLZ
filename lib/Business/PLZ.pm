@@ -3,7 +3,7 @@ use warnings;
 package Business::PLZ;
 #ABSTRACT: Validate German postal codes and map them to states
 
-use Tree::Binary::Search;
+use Tree::Binary::Search 1.0;
 use overload '""' => sub { ${$_[0]} };
 use Carp 'croak';
 
@@ -84,8 +84,7 @@ sub state {
     $plz = Business::PLZ->new( $plz )
         unless ref $plz and $plz->isa('Business::PLZ');
     # Tree::Binary throws on exception if key does not exist :-(
-    my $state = $STATES->select($plz) if $STATES->exists($plz);
-    return $state;
+    return $STATES->exists($plz) ? $STATES->select($plz) : undef;
 }
 
 sub exists {
@@ -120,7 +119,7 @@ This module validates German postal codes and maps them to states.
 =method state
 
 Returns the state ("Bundesland") of a postal code as ISO 3166-2 subdivision
-code. The country prefix 'DE-' (or 'AT-' is not included). Some postal codes
+code. The country prefix 'DE-' (or 'AT-') is not included. Some postal codes
 belong to more than one state - in this case only one state is returned. A
 future version of this module may also return multiple states. 
 
